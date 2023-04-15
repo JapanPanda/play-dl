@@ -518,11 +518,13 @@ export async function playlist_info(url: string, options: PlaylistOptions = {}):
         urlObj.hostname = 'www.youtube.com';
         url_ = urlObj.toString();
     }
-
+    let cookieJar = {};
     const body = await request(url_, {
         headers: {
             'accept-language': options.language || 'en-US;q=0.9'
-        }
+        },
+        cookies: true,
+        cookieJar
     });
     if (body.indexOf('Our systems have detected unusual traffic from your computer network.') !== -1)
         throw new Error('Captcha page: YouTube has detected that you are a bot!');
